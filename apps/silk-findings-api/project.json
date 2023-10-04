@@ -1,0 +1,64 @@
+{
+  "name": "silk-findings-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/silk-findings-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/silk-findings-api",
+        "main": "apps/silk-findings-api/src/main.ts",
+        "tsConfig": "apps/silk-findings-api/tsconfig.app.json",
+        "assets": ["apps/silk-findings-api/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/silk-findings-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "silk-findings-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "silk-findings-api:build:development"
+        },
+        "production": {
+          "buildTarget": "silk-findings-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/silk-findings-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/silk-findings-api/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
